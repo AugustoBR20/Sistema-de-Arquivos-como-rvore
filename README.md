@@ -2,6 +2,12 @@ Trabalho Final - Estrutura de dados II
 
 Alunos: João Paulo Gatto de Oliveira, Matheus Possel e Augusto Rosa
 
+Linguagem Escolhida: Python
+
+=========================================================================================================================================================================================================================================================================
+
+{Gerenciador de Sistema de Arquivos com Árvores Gerais}
+
 Funcionalidades Obrigatórias:
 Carregamento Inicial:
 Ao iniciar, o programa deve carregar a estrutura real do sistema de arquivos para uma árvore na memória.
