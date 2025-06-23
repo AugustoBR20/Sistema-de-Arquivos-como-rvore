@@ -79,17 +79,32 @@ def arquivos_maiores_que(no, limite):
     buscar(no)
     return resultados
 
-def pasta_com_mais_arquivos(no):
-    melhor_pasta = None
-    max_qtd = -1
-    def buscar(n):
-        nonlocal melhor_pasta, max_qtd
-        if not n.eh_arquivo:
-            qtd = sum(1 for f in n.filhos if f.eh_arquivo or f.filhos)
-            if qtd > max_qtd:
-                melhor_pasta = n
-                max_qtd = qtd
+def pasta_com_mais_arquivos(no): # Define os parâmetros
+    melhor_pasta = None # Cria variável local para armazenar a pasta com mais arquivos, começa vazia
+    max_qtd = -1 # Cria variável para armazenar a maior quantidade de arquivos encontrada em uma pasta (começa com -1)
+                 # para garantir que mesmo que a pasta encontrada tenha 0 arquivos, ela ainda será considerada.
+    def buscar(n): # Função recursiva para buscar a pasta com mais arquivos
+        nonlocal melhor_pasta, max_qtd # Usa nonlocal para modificar as variáveis melhor_pasta e max_qtd, dentro de uma função interna
+        if not n.eh_arquivo: # Checa se n não é um arquivo, 
+            qtd = sum(1 for f in n.filhos if f.eh_arquivo or f.filhos) # Conta quantos filhos o nó tem que são arquivos ou possuem  filhos (arquivos ou subpastas)
+            if qtd > max_qtd: # Se essa quantidade qtd for maior que max_qtd
+                melhor_pasta = n # Atualiza melhor_pasta
+                max_qtd = qtd # Atualiza max_qtd
+            for f in n.filhos: # Para cada filho chama buscar recursivamente
+                buscar(f)
+    buscar(no) # Percorre recursivamente toda a árvore de diretórios e arquivos, começando pelo nó passado como argumento
+    return melhor_pasta, max_qtd # Retorna a pasta com mais arquivos e a quantidade encontrada
+
+def arquivos_por_extensao(no, extensao): # Define os parâmetros
+    encontrados = [] # Lista para armazenar os arquivos encontrados
+
+    def buscar(n): #Função recursiva para buscar arquivos com a extensão especificada
+        if n.eh_arquivo and n.nome.endswith(extensao): # Verifica se é um arquivo e se termina com a extensão informada
+            encontrados.append(n) # Caso o if seja True, ele insere o nó à lista "encontrados"
+        else: # Caso o contrário, percorre todos os filhos e chama a função de busca recursivamente para cada filho
             for f in n.filhos:
                 buscar(f)
-    buscar(no)
-    return melhor_pasta, max_qtd
+
+    buscar(no) # Inicia a busca a partir do nó raiz passado como argumento.
+    return encontrados # Retorna a lista com os arquivos encontrados que possuem a extensão desejada
+
