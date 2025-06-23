@@ -66,3 +66,15 @@ def encontrar_maior_arquivo(no, maiores=None, max_tam=0):
         for filho in no.filhos:
             maiores, max_tam = encontrar_maior_arquivo(filho, maiores, max_tam)
     return maiores, max_tam
+
+def arquivos_maiores_que(no, limite):
+    resultados = []
+
+    def buscar(n):
+        if n.eh_arquivo and  n.tamanho > limite:
+            resultados.append(n)
+        elif not n.eh_arquivo:
+            for f in n.filhos:
+                buscar(f)
+    buscar(no)
+    return resultados
