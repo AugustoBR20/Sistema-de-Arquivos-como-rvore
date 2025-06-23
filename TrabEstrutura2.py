@@ -71,10 +71,25 @@ def arquivos_maiores_que(no, limite):
     resultados = []
 
     def buscar(n):
-        if n.eh_arquivo and  n.tamanho > limite:
+        if n.eh_arquivo and n.tamanho > limite:
             resultados.append(n)
         elif not n.eh_arquivo:
             for f in n.filhos:
                 buscar(f)
     buscar(no)
     return resultados
+
+def pasta_com_mais_arquivos(no):
+    melhor_pasta = None
+    max_qtd = -1
+    def buscar(n):
+        nonlocal melhor_pasta, max_qtd
+        if not n.eh_arquivo:
+            qtd = sum(1 for f in n.filhos if f.eh_arquivo or f.filhos)
+            if qtd > max_qtd:
+                melhor_pasta = n
+                max_qtd = qtd
+            for f in n.filhos:
+                buscar(f)
+    buscar(no)
+    return melhor_pasta, max_qtd
