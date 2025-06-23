@@ -108,3 +108,17 @@ def arquivos_por_extensao(no, extensao): # Define os parâmetros
     buscar(no) # Inicia a busca a partir do nó raiz passado como argumento.
     return encontrados # Retorna a lista com os arquivos encontrados que possuem a extensão desejada
 
+def pastas_vazias(no):
+    vazias = []
+
+    def buscar(n):
+        if not n.eh_arquivo:
+            if len(n.filhos) == 0:
+                vazias.append(n)
+            else:
+                for f in n.filhos:
+                    buscar(f)
+
+    buscar(no)
+    return vazias
+
