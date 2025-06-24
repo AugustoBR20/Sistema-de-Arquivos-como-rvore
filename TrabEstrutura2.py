@@ -82,6 +82,36 @@ def arquivos_maiores_que(no, limite):  # Encontra arquivos com tamanho acima de 
     buscar(no)  # Inicia busca a partir do nó raiz
     return resultados  # Retorna arquivos encontrados
 
+def pasta_com_mais_arquivos(no):
+    melhor_pasta = None
+    max_qtd = -1
+
+    def buscar(n):
+        nonlocal melhor_pasta, max_qtd
+        if not n.eh_arquivo:
+            qtd = sum(1 for f in n.filhos if f.eh_arquivo or f.filhos)
+            if qtd > max_qtd:
+                melhor_pasta = n
+                max_qtd = qtd
+            for f in n.filhos:
+                buscar(f)
+
+    buscar(no)
+    return melhor_pasta, max_qtd
+
+def arquivos_por_extensao(no, extensao):
+    encontrados = []
+
+    def buscar(n):
+        if n.eh_arquivo and n.nome.endswith(extensao):
+            encontrados.append(n)
+        elif not n.eh_arquivo:
+            for f in n.filhos:
+                buscar(f)
+
+    buscar(no)
+    return encontrados
+
 def pastas_vazias(no):  # Encontra diretórios que não contêm nenhum arquivo ou pasta
     vazias = []  # Lista de pastas vazias
 
@@ -107,7 +137,6 @@ else:
 raiz = No(os.path.abspath(caminho_raiz))  # Cria o nó raiz da árvore com o caminho absoluto
 
 # === MENU INTERATIVO ===
-
 while True:
     print("\n=== MENU ===")
     print("1 - Exibir árvore")
