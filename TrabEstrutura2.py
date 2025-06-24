@@ -121,4 +121,41 @@ while True:
     print("0 - Sair")
     opcao = input("Escolha uma opção: ")
 
-    
+     if opcao == "1":
+        exibir_arvore(raiz)
+    elif opcao == "2":
+        html = exportar_html(raiz)
+        salvar_html(html)
+    elif opcao == "3.1":
+        maiores, tamanho = encontrar_maior_arquivo(raiz)
+        print("\nMaior(es) arquivo(s):")
+        for arq in maiores:
+            print(f"{arq.caminho} ({arq.tamanho} bytes)")
+    elif opcao == "3.2":
+        try:
+            n = int(input("Digite o valor N em bytes: "))
+            encontrados = arquivos_maiores_que(raiz, n)
+            print(f"\nArquivos maiores que {n} bytes:")
+            for a in encontrados:
+                print(f"{a.caminho} ({a.tamanho} bytes)")
+        except ValueError:
+            print("Valor inválido.")
+    elif opcao == "3.3":
+        pasta, qtd = pasta_com_mais_arquivos(raiz)
+        if pasta:
+            print(f"\nPasta com mais arquivos: {pasta.caminho} ({qtd} filhos)")
+    elif opcao == "3.4":
+        ext = input("Digite a extensão (ex: .txt): ").strip()
+        encontrados = arquivos_por_extensao(raiz, ext)
+        print(f"\nArquivos com extensão '{ext}':")
+        for a in encontrados:
+            print(f"{a.caminho} ({a.tamanho} bytes)")
+    elif opcao == "3.5":
+        vazias = pastas_vazias(raiz)
+        print("\nPastas vazias:")
+        for p in vazias:
+            print(p.caminho)
+    elif opcao == "0":
+        break
+    else:
+        print("Opção inválida.")
