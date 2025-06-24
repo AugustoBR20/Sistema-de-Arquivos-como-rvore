@@ -6,6 +6,7 @@ class No:  # Define a classe 'No' que representa um arquivo ou diretório na ár
         self.caminho = caminho  # Armazena o caminho completo do nó
         self.nome = os.path.basename(caminho)  # Extrai apenas o nome do arquivo ou pasta
         self.eh_arquivo = os.path.isfile(caminho)  # Verifica se o caminho é um arquivo
+        self.eh_diretorio = os.path.isdir(caminho) # Verifica se o caminho é um diretório
         self.filhos = []  # Inicializa a lista de filhos (vazia)
         self.tamanho = 0  # Inicializa o tamanho como 0
 
@@ -25,7 +26,7 @@ class No:  # Define a classe 'No' que representa um arquivo ou diretório na ár
             for item in os.listdir(self.caminho):  # Lista todos os itens do diretório
                 caminho_completo = os.path.join(self.caminho, item)  # Cria o caminho completo do item
                 no_filho = No(caminho_completo)  # Cria um novo nó filho
-                if no_filho.eh_arquivo or no_filho.filhos is not None:  # Verifica se o nó filho é válido
+                if no_filho.eh_arquivo or no_filho.eh_diretorio:  # Verifica se o nó filho é válido
                     self.filhos.append(no_filho)  # Adiciona o nó filho à lista de filhos
         except PermissionError:  # Se não tiver permissão para acessar o diretório
             pass  # Ignora o erro e continua
@@ -105,3 +106,19 @@ else:
 
 raiz = No(os.path.abspath(caminho_raiz))  # Cria o nó raiz da árvore com o caminho absoluto
 
+# === MENU INTERATIVO ===
+
+while True:
+    print("\n=== MENU ===")
+    print("1 - Exibir árvore")
+    print("2 - Exportar para HTML")
+    print("3 - Pesquisar")
+    print("3.1 - Maior arquivo")
+    print("3.2 - Arquivos maiores que N bytes")
+    print("3.3 - Pasta com mais arquivos diretos")
+    print("3.4 - Arquivos por extensão")
+    print("3.5 - Pastas vazias")
+    print("0 - Sair")
+    opcao = input("Escolha uma opção: ")
+
+    
