@@ -1,0 +1,91 @@
+Instruções e Testes do sistema de arquivos como arvore
+
+Requisitos:
+ - Python 3 instalado (verifique com python3 --version)
+ - Preferencialmente ter Sistema operacional Linux
+
+ Executar o programa:
+ # Usar pasta atual como raíz
+ - python3 TrabEstrutura2.py
+
+# Usar pasta específica       (caminho para pasta)
+- python3 TrabEstrutura2.py /home/seu_usuario/Documentos
+
+
+Exemplos de Execução – Todas as Funcionalidades
+
+=== MENU ===
+1 - Exibir árvore
+2 - Exportar para HTML
+3.1 - Maior arquivo
+3.2 - Arquivos maiores que N bytes
+3.3 - Pasta com mais arquivos diretos
+3.4 - Arquivos por extensão
+3.5 - Pastas vazias
+0 - Sair
+Escolha:
+
+Exemplo 1 – Exibir árvore 
+- Escolha: 1
+pasta (3 filhos, 4108 bytes)
+├── pasta1 (3 filhos, 1500 bytes)
+│   ├── arquivo1.txt (500 bytes)
+│   ├── arquivo2.pdf (1000 bytes)
+│   └── pasta2 (0 filhos, 0 bytes)
+├── pasta3 (1 filho, 1304 bytes)
+│   └── teste.txt (1304 bytes)
+└── arquivo3.bin (1304 bytes)
+
+Exemplo 2 – Exportar para HTML
+- Escolha: 2
+  Exportado para 'saida.html'.
+# Um arquivo saida.html será criado com a mesma estrutura do item 1.
+
+Exemplo 3.1 – Maior arquivo
+- Escolha: 3.1
+  Maior(es) arquivo(s):
+  /home/user/pasta3/teste.txt (1304 bytes)
+  /home/user/arquivo3.bin (1304 bytes)
+
+Exemplo 3.2 – Arquivos maiores que N bytes
+- Escolha: 3.2
+- Digite o valor N em bytes: 999
+
+  Arquivos maiores que 999 bytes:
+  /home/user/pasta1/arquivo2.pdf (1000 bytes)
+  /home/user/pasta3/teste.txt (1304 bytes)
+  /home/user/arquivo3.bin (1304 bytes)
+
+Exemplo 3.3 – Pasta com mais arquivos
+- Escolha: 3.3
+  Pasta com mais arquivos:
+  /home/user/pasta1 (3 filhos)
+
+Exemplo 3.4 – Arquivos por extensão
+- Escolha: 3.4
+- Digite a extensão (ex: .txt): .txt
+
+  Arquivos com extensão '.txt':
+  /home/user/pasta1/arquivo1.txt (500 bytes)
+  /home/user/pasta3/teste.txt (1304 bytes)
+
+Exemplo 3.5 – Pastas vazias
+- Escolha: 3.5
+
+  Pastas vazias:
+  /home/user/pasta1/pasta2
+
+Encerrar o programa
+- Escolha: 0
+
+
+
+
+
+
+
+
+
+
+
+
