@@ -150,7 +150,7 @@ while True:
     print("0 - Sair")
     opcao = input("Escolha uma opção: ")
 
-     if opcao == "1":
+    if opcao == "1":
         exibir_arvore(raiz)
     elif opcao == "2":
         html = exportar_html(raiz)
