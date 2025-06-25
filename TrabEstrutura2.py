@@ -82,35 +82,35 @@ def arquivos_maiores_que(no, limite):  # Encontra arquivos com tamanho acima de 
     buscar(no)  # Inicia busca a partir do nó raiz
     return resultados  # Retorna arquivos encontrados
 
-def pasta_com_mais_arquivos(no):
-    melhor_pasta = None
-    max_qtd = -1
+def pasta_com_mais_arquivos(no): # Encontra a pasta com mais arquivos
+    melhor_pasta = None # Inicializa a melhor pasta como None
+    max_qtd = -1 # Inicializa a quantidade máxima como -1
 
-    def buscar(n):
-        nonlocal melhor_pasta, max_qtd
-        if not n.eh_arquivo:
-            qtd = sum(1 for f in n.filhos if f.eh_arquivo or f.filhos)
-            if qtd > max_qtd:
-                melhor_pasta = n
-                max_qtd = qtd
-            for f in n.filhos:
+    def buscar(n): # Função recursiva para buscar a pasta com mais arquivos
+        nonlocal melhor_pasta, max_qtd # Usa variáveis externas para armazenar a melhor pasta e a quantidade máxima
+        if not n.eh_arquivo: # Se não for um arquivo
+            qtd = sum(1 for f in n.filhos if f.eh_arquivo or f.filhos) # Conta a quantidade de arquivos diretos ou subdiretórios
+            if qtd > max_qtd: # Se a quantidade for maior que a máxima encontrada
+                melhor_pasta = n # Atualiza a melhor pasta
+                max_qtd = qtd # Atualiza a quantidade máxima
+            for f in n.filhos: # Busca recursivamente nos filhos
                 buscar(f)
 
-    buscar(no)
-    return melhor_pasta, max_qtd
+    buscar(no) # Inicia a busca a partir do nó raiz
+    return melhor_pasta, max_qtd # Retorna a melhor pasta e a quantidade de arquivos diretos
 
-def arquivos_por_extensao(no, extensao):
-    encontrados = []
+def arquivos_por_extensao(no, extensao): # Encontra arquivos com uma extensão específica
+    encontrados = [] # Lista de arquivos encontrados
 
-    def buscar(n):
-        if n.eh_arquivo and n.nome.endswith(extensao):
-            encontrados.append(n)
-        elif not n.eh_arquivo:
-            for f in n.filhos:
+    def buscar(n): # Função recursiva para buscar arquivos por extensão
+        if n.eh_arquivo and n.nome.endswith(extensao): # Se for um arquivo e a extensão bater   
+            encontrados.append(n) # Adiciona à lista
+        elif not n.eh_arquivo: # Se for um diretório
+            for f in n.filhos: # Busca recursivamente nos filhos
                 buscar(f)
 
-    buscar(no)
-    return encontrados
+    buscar(no) # Inicia a busca a partir do nó raiz
+    return encontrados # Retorna os arquivos encontrados com a extensão especificada
 
 def pastas_vazias(no):  # Encontra diretórios que não contêm nenhum arquivo ou pasta
     vazias = []  # Lista de pastas vazias
@@ -150,41 +150,41 @@ while True:
     print("0 - Sair")
     opcao = input("Escolha uma opção: ")
 
-    if opcao == "1":
+    if opcao == "1": # Exibe a árvore de diretórios
         exibir_arvore(raiz)
-    elif opcao == "2":
-        html = exportar_html(raiz)
-        salvar_html(html)
-    elif opcao == "3.1":
-        maiores, tamanho = encontrar_maior_arquivo(raiz)
-        print("\nMaior(es) arquivo(s):")
-        for arq in maiores:
-            print(f"{arq.caminho} ({arq.tamanho} bytes)")
-    elif opcao == "3.2":
+    elif opcao == "2": # Exporta a árvore para HTML
+        html = exportar_html(raiz) # Gera o conteúdo HTML da árvore
+        salvar_html(html) # Salva o conteúdo HTML em um arquivo
+    elif opcao == "3.1": # Encontra o maior arquivo na árvore
+        maiores, tamanho = encontrar_maior_arquivo(raiz) # Encontra os maiores arquivos
+        print("\nMaior(es) arquivo(s):") # Exibe os maiores arquivos encontrados
+        for arq in maiores: # Exibe cada arquivo encontrado
+            print(f"{arq.caminho} ({arq.tamanho} bytes)") # Exibe o caminho e tamanho do arquivo
+    elif opcao == "3.2": # Encontra arquivos maiores que um valor N em bytes
         try:
-            n = int(input("Digite o valor N em bytes: "))
-            encontrados = arquivos_maiores_que(raiz, n)
-            print(f"\nArquivos maiores que {n} bytes:")
-            for a in encontrados:
-                print(f"{a.caminho} ({a.tamanho} bytes)")
-        except ValueError:
-            print("Valor inválido.")
-    elif opcao == "3.3":
+            n = int(input("Digite o valor N em bytes: ")) # Solicita o valor N ao usuário
+            encontrados = arquivos_maiores_que(raiz, n) # Encontra os arquivos maiores que N bytes
+            print(f"\nArquivos maiores que {n} bytes:") # Exibe os arquivos encontrados
+            for a in encontrados: # Exibe cada arquivo encontrado
+                print(f"{a.caminho} ({a.tamanho} bytes)") # Exibe o caminho e tamanho do arquivo
+        except ValueError: # Se o valor N não for um número válido
+            print("Valor inválido.") # Exibe mensagem de erro
+    elif opcao == "3.3": # Encontra a pasta com mais arquivos diretos
         pasta, qtd = pasta_com_mais_arquivos(raiz)
-        if pasta:
-            print(f"\nPasta com mais arquivos: {pasta.caminho} ({qtd} filhos)")
-    elif opcao == "3.4":
-        ext = input("Digite a extensão (ex: .txt): ").strip()
-        encontrados = arquivos_por_extensao(raiz, ext)
-        print(f"\nArquivos com extensão '{ext}':")
-        for a in encontrados:
-            print(f"{a.caminho} ({a.tamanho} bytes)")
-    elif opcao == "3.5":
+        if pasta: # Se encontrou uma pasta
+            print(f"\nPasta com mais arquivos: {pasta.caminho} ({qtd} filhos)") # Exibe o caminho da pasta e a quantidade de arquivos diretos
+    elif opcao == "3.4": # Encontra arquivos por extensão
+        ext = input("Digite a extensão (ex: .txt): ").strip() # Solicita a extensão ao usuário
+        encontrados = arquivos_por_extensao(raiz, ext) # Encontra os arquivos com a extensão especificada
+        print(f"\nArquivos com extensão '{ext}':") # Exibe os arquivos encontrados
+        for a in encontrados: # Exibe cada arquivo encontrado
+            print(f"{a.caminho} ({a.tamanho} bytes)") # Exibe o caminho e tamanho do arquivo
+    elif opcao == "3.5": # Encontra pastas vazias
         vazias = pastas_vazias(raiz)
-        print("\nPastas vazias:")
-        for p in vazias:
-            print(p.caminho)
-    elif opcao == "0":
+        print("\nPastas vazias:") # Exibe as pastas vazias encontradas
+        for p in vazias: # Exibe cada pasta vazia encontrada
+            print(p.caminho) # Exibe o caminho da pasta vazia
+    elif opcao == "0": # Encerra o programa
         break
-    else:
+    else: # Se a opção for inválida
         print("Opção inválida.")
